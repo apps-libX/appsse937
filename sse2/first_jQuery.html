@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SSE Basic Example - with jQuery</title>
+    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+</head>
+<body>
+
+<pre id="result"></pre>
+
+<script>
+
+    var es = new EventSource("first.php");
+
+    es.addEventListener("message", function(e) {
+        $("#result").append(e.data + "\n");
+    }, false);
+
+</script>
+</body>
+</html>
