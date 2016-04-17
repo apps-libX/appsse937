@@ -1,0 +1,25 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>SSE Basic Example - with jQuery & animation</title>
+    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+</head>
+<body>
+
+<pre id="result"></pre>
+
+<script>
+
+    var es = new EventSource("first.php");
+
+    es.addEventListener("message", function(e) {
+        $("#result").fadeOut("fast", function() {
+            $("#result").html(e.data);
+            $("#result").fadeIn("slow");
+        });
+    }, false);
+
+</script>
+</body>
+</html>
