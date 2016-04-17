@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SSE Basic Example</title>
+</head>
+<body>
+
+<pre id="date"></pre>
+
+<script>
+
+    var es = new EventSource("first.php");
+
+    es.addEventListener("message", function(e) {
+        document.getElementById("date").innerHTML += e.data + "\n";
+    }, false);
+
+</script>
+
+</body>
+</html>
