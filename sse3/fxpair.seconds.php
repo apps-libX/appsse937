@@ -10,31 +10,43 @@
 class FXPair
 {
     /**
+     * The name of the FX pair
+     *
      * @var
      */
     private $symbol;
 
     /**
+     * The mean bid price
+     *
      * @var
      */
     private $bid;
 
     /**
+     * The spread. Add to $bid to get "ask".
+     *
      * @var
      */
     private $spread;
 
     /**
+     * Accuracy to quote prices to.
+     *
      * @var
      */
     private $decimalPlaces;
 
     /**
+     * Number of seconds for one bigger cycle
+     *
      * @var
      */
     private $longCycle;
 
     /**
+     * Number of seconds for the small cycle
+     *
      * @var
      */
     private $shortCycle;
