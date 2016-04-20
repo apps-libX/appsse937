@@ -4,7 +4,7 @@
  * Created by anonymous on 21/04/16 2:45.
  */
 
-include_once('fxpair.milliseconds.php');
+include_once('fxpair.ms.php');
 
 header('Content-Type: text/event-stream');
 
