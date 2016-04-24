@@ -1,6 +1,6 @@
 <?php
 /**
- * fxserver.seconds.php
+ * fxserver2.php
  * Created by anonymous on 21/04/16 2:14.
  */
 

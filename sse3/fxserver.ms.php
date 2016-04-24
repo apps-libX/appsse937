@@ -1,6 +1,6 @@
 <?php
 /**
- * fxserver.millisecond.php
+ * fxserver.ms.php
  * Created by anonymous on 21/04/16 2:45.
  */
 
