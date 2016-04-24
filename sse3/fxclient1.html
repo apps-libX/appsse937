@@ -11,17 +11,19 @@
         <th>USD/JPY</th>
         <th>EUR/USD</th>
         <th>AUD/GBP</th>
+        <th>GBP/USD</th>
     </tr>
     <tr>
         <td id="USD/JPY"></td>
         <td id="EUR/USD"></td>
         <td id="AUD/GBP"></td>
+        <td id="GBP/USD"></td>
     </tr>
 </table>
 
 <script>
 
-    var es = new EventSource("fxserver.first.php");
+    var es = new EventSource("fxserver1.php");
 
     es.addEventListener("message", function(e) {
 
