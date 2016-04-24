@@ -1,10 +1,10 @@
 <?php
 /**
- * fxserver.ms.php
+ * fxserver3.ms.php
  * Created by anonymous on 21/04/16 2:45.
  */
 
-include_once('fxpair.ms.php');
+include_once('fxpair3.ms.php');
 
 header('Content-Type: text/event-stream');
 
