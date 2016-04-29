@@ -3,6 +3,7 @@
  * fxpair4.ms.php
  * Created by anonymous on 25/04/16 1:11.
  */
+
 class FXPair
 {
     private $symbol;
