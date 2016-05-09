@@ -30,12 +30,8 @@ class FXPair
     public function generate($t)
     {
         $bid = $this->bid;
-        $bid += $this->spread * 100 *
-            sin((360 / $this->longCycle) *
-                (deg2rad($t % $this->longCycle)));
-        $bid += $this->spread * 30 *
-            sin((360 / $this->shortCycle) *
-                (deg2rad($t % $this->shortCycle)));
+        $bid += $this->spread * 100 * sin((360 / $this->longCycle) * (deg2rad($t % $this->longCycle)));
+        $bid += $this->spread * 30 * sin((360 / $this->shortCycle) * (deg2rad($t % $this->shortCycle)));
         $bid += (mt_rand(-1000, 1000) / 1000.0) * 10 * $this->spread;
         $ask = $bid + $this->spread;
 
