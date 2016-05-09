@@ -58,24 +58,37 @@
 </table>
 
 <script>
-    var url = "fx_server.shutdown.php?";
+
+    var url = "fxserver3.shutdown.php?";
     var es = null;
     var fullHistory = {};
     var keepaliveSecs = 20;
     var keepaliveTimer = null;
 
     function gotActivity() {
-        if (keepaliveTimer != null)clearTimeout(keepaliveTimer);
+
+        if (keepaliveTimer != null) {
+            clearTimeout(keepaliveTimer);
+        }
+
         keepaliveTimer = setTimeout(connect, keepaliveSecs * 1000);
+
     }
 
     function startEventSource() {
-        if (es)es.close();
+
+        if (es) {
+            es.close();
+        }
+
         es = new EventSource(url);
+
         es.addEventListener('message', function(e) {
             processOneLine(e.data);
         }, false);
+
         es.addEventListener('error', handleError, false);
+
     }
 
     function handleError(e) {
@@ -83,13 +96,19 @@
     }
 
     function connect() {
-        if (window.EventSource)startEventSource();
-//else handle fallbacks here
+
+        if (window.EventSource) {
+            startEventSource();
+        }
+        //else handle fallbacks here
         gotActivity();
+
     }
 
     function processOneLine(s) {
+
         gotActivity();
+
         try {
             var d = JSON.parse(s);
         } catch (e) {
@@ -100,49 +119,59 @@
         if (d.seed) {
             var x = document.getElementById('msg');
             x.innerHTML += "seed=" + d.seed + "<br/>";
-        }
-        else if (d.symbol) {
-            if (!fullHistory.hasOwnProperty(d.symbol))fullHistory[d.symbol] = {};
+        } else if (d.symbol) {
+            if (!fullHistory.hasOwnProperty(d.symbol)) {
+                fullHistory[d.symbol] = {};
+            }
+
             var x = document.getElementById(d.symbol);
+
             for (var ix in d.rows) {
                 var r                              = d.rows[ix];
                 x.innerHTML                        = d.rows[ix].bid;
                 fullHistory[d.symbol][r.timestamp] = [r.bid, r.ask];
             }
+
             updateHistoryTable(d.symbol);
-        }
-        else if (d.action == "keep-alive") {
-            document.getElementById("msg").innerHTML +=
-                    "Keep-alive:" + d.timestamp + "<br/>";
-        }
-        else if (d.action == "scheduled_shutdown") {
-            document.getElementById("msg").innerHTML +=
-                    "Scheduled shutdown from now. Come back at " +
-                    d.until + "(in " + d.until_secs + " secs).<br/>";
+        } else if (d.action == "keep-alive") {
+            document.getElementById("msg").innerHTML += "Keep-alive:" + d.timestamp + "<br/>";
+        } else if (d.action == "scheduled_shutdown") {
+            document.getElementById("msg").innerHTML += "Scheduled shutdown from now. Come back at " + d.until + "(in " + d.until_secs + " secs).<br/>";
+
             temporarilyDisconnect(d.until_secs);
         }
+
     }
 
 
     function temporarilyDisconnect(secs) {
+
         var millisecs = secs * 1000;
+
         if (keepaliveTimer) {
             clearTimeout(keepaliveTimer);
             keepaliveTimer = null;
         }
+
         if (es) {
             es.close();
             es = null;
         }
+
         setTimeout(connect, millisecs);
+
     }
 
 
     function updateHistoryTable(symbol) {
+
         var tbody = makeHistoryTbody(fullHistory[symbol]);
         var x     = document.getElementById("history_" + symbol);
+
         x.parentNode.replaceChild(tbody, x);
-        tbody.id  = x.id;
+
+        tbody.id = x.id;
+
     }
 
     /**
@@ -150,10 +179,12 @@
      * @return An HTML tbody
      */
     function makeHistoryTbody(history) {
+
         var tbody = document.createElement('tbody');
         var keys  = Object.keys(history).sort().slice(-10).reverse();
 
         var timestamp, v, row, cell;
+
         for (var n = 0; n < keys.length; n++) {
             timestamp = keys[n];
             v         = history[timestamp];
@@ -173,11 +204,13 @@
 
             tbody.appendChild(row);
         }
+
         return tbody;
+
     }
 
-
     setTimeout(connect, 100);
+
 </script>
 </body>
 </html>

@@ -1,5 +1,11 @@
 <?php
+/**
+ * fxserver5.die_slowly.php
+ * Created by anonymous on 09/05/16 22:24.
+ */
+
 date_default_timezone_set('UTC');
+
 set_time_limit(0);
 
 include_once("fxpair4.id.php");
@@ -20,6 +26,7 @@ function sendData($data)
     echo "data:";
     echo json_encode($data) . "\n";
     echo "\n";
+
     @flush();
     @ob_flush();
 }
@@ -27,11 +34,14 @@ function sendData($data)
 function sendIdAndData($data)
 {
     $id = $data['rows'][0]['id'];
+
     echo "id:" . json_encode($id) . "\n";
+
     sendData($data);
 }
 
 $clock = microtime(true);
+
 if (isset($argc) && $argc >= 2 && $argv[1] != '') {
     $t = $argv[1];
 } elseif (array_key_exists('seed', $_REQUEST)) {
@@ -81,6 +91,7 @@ while (true) {
     }    //Play dead
 
     $s = @file_get_contents("shutdown.txt");
+
     if ($s) {
         $when      = strtotime($s);
         $untilSecs = $when - time();
@@ -103,6 +114,9 @@ while (true) {
         ]);
         $nextKeepalive = time() + 15;
     }
+
     $ix = mt_rand(0, count($symbols) - 1);
+
     sendIdAndData($symbols[$ix]->generate($t));
+
 }

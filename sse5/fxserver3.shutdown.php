@@ -1,4 +1,9 @@
 <?php
+/**
+ * fxserver3.shutdown.php
+ * Created by anonymous on 09/05/16 22:22.
+ */
+
 date_default_timezone_set('UTC');
 
 include_once("fxpair.structured.php");
@@ -17,11 +22,13 @@ function sendData($data)
     echo "data:";
     echo json_encode($data) . "\n";
     echo "\n";
+
     @flush();
     @ob_flush();
 }
 
 $clock = microtime(true);
+
 if (isset($argc) && $argc >= 2) {
     $t = $argv[1];
 } elseif (array_key_exists('seed', $_REQUEST)) {
@@ -30,6 +37,7 @@ if (isset($argc) && $argc >= 2) {
     $t = $clock;
     sendData(['seed' => $t]);
 }
+
 mt_srand($t * 1000);
 
 $nextKeepalive = time() + 15;
@@ -44,6 +52,7 @@ while (true) {
     $clock += $sleepSecs;
 
     $s = @file_get_contents("shutdown.txt");
+
     if ($s) {
         $when      = strtotime($s);
         $untilSecs = $when - time();
@@ -66,6 +75,9 @@ while (true) {
         ]);
         $nextKeepalive = time() + 15;
     }
+
     $ix = mt_rand(0, count($symbols) - 1);
+
     sendData($symbols[$ix]->generate($t));
+
 }

@@ -1,21 +1,18 @@
 <?php
+/**
+ * fxpair.structured.php
+ * Created by anonymous on 09/05/16 22:18.
+ */
 
 class FXPair
 {
-    /** The name of the FX pair */
     private $symbol;
-    /** The mean bid price */
     private $bid;
-    /** The spread. Add to $bid to get "ask".*/
     private $spread;
-    /** Accuracy to quote prices to.*/
     private $decimalPlaces;
-    /** Number of seconds for one bigger cycle */
     private $longCycle;
-    /** Number of seconds for the small cycle */
     private $shortCycle;
 
-    /** Constructor */
     public function __construct($symbol, $b, $s, $d, $c1, $c2)
     {
         $this->symbol        = $symbol;
@@ -26,7 +23,6 @@ class FXPair
         $this->shortCycle    = $c2;
     }
 
-    /** @param float $t Seconds since 1970, to microsecond accuracy */
     public function generate($t)
     {
         $bid = $this->bid;

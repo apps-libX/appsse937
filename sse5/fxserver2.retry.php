@@ -1,4 +1,9 @@
 <?php
+/**
+ * fxserver2.retry.php
+ * Created by anonymous on 09/05/16 22:21.
+ */
+
 include_once("fxpair.structured.php");
 
 header("Content-Type: text/event-stream");
@@ -17,11 +22,13 @@ function sendData($data)
     echo "data:";
     echo json_encode($data) . "\n";
     echo "\n";
+
     @flush();
     @ob_flush();
 }
 
 $clock = microtime(true);
+
 if (isset($argc) && $argc >= 2) {
     $t = $argv[1];
 } elseif (array_key_exists('seed', $_REQUEST)) {
@@ -30,6 +37,7 @@ if (isset($argc) && $argc >= 2) {
     $t = $clock;
     sendData(['seed' => $t]);
 }
+
 mt_srand($t * 1000);
 
 while (true) {
@@ -44,6 +52,9 @@ while (true) {
     if (time() % 23 == 0) {
         break;
     }
+
     $ix = mt_rand(0, count($symbols) - 1);
+
     sendData($symbols[$ix]->generate($t));
+
 }
